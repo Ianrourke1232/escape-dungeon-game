@@ -1,83 +1,68 @@
-// Initialize score
+// Game variables
+const player = document.getElementById('player');
+const obstacle = document.getElementById('obstacle');
+const gameContainer = document.querySelector('.game-container');
+let isJumping = false;
 let score = 0;
 
-// Function to update the score display
-function updateScoreDisplay() {
-    const scoreElement = document.getElementById('score');
-    scoreElement.textContent = `Score: ${score}`;
-}
+// Game settings
+const jumpHeight = 150; // Height of the jump in pixels
+const jumpDuration = 300; // Duration of the jump in milliseconds
+const obstacleSpeed = 3; // Speed of the obstacle movement
 
-// Function to increase the score
-function increaseScore(amount) {
-    score += amount;
-    updateScoreDisplay();
-}
+// Function to make the player jump
+function jump() {
+    if (isJumping) return;
+    isJumping = true;
 
-// Function to handle player jump
-function playerJump() {
-    const player = document.getElementById('player');
-    player.classList.add('jump');
+    // Animate the jump
+    player.style.transition = `bottom ${jumpDuration / 2}ms ease-in`;
+    player.style.bottom = `${jumpHeight}px`;
 
     setTimeout(() => {
-        player.classList.remove('jump');
-    }, 500); // Adjust the duration as needed
+        player.style.transition = `bottom ${jumpDuration / 2}ms ease-out`;
+        player.style.bottom = '50px';
+        setTimeout(() => {
+            isJumping = false;
+        }, jumpDuration / 2);
+    }, jumpDuration / 2);
 }
 
-// Function to handle touch input
-function handleTouchStart(event) {
-    event.preventDefault(); // Prevent default behavior (e.g., scrolling)
-    playerJump();
-}
+// Event listener for the spacebar to jump
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+        jump();
+    }
+});
 
-// Optional: Handle touch movement if needed (e.g., dragging to move)
-function handleTouchMove(event) {
-    event.preventDefault(); // Prevent default behavior (e.g., scrolling)
-    const touch = event.touches[0];
-    const player = document.getElementById('player');
+// Function to move the obstacle and check for collisions
+function moveObstacle() {
+    let obstacleLeft = parseFloat(window.getComputedStyle(obstacle).right);
 
-    // Example: Move player based on touch movement
-    player.style.left = `${touch.clientX - player.clientWidth / 2}px`;
-    player.style.top = `${touch.clientY - player.clientHeight / 2}px`;
-}
+    if (obstacleLeft >= window.innerWidth) {
+        obstacle.style.right = '-60px'; // Reset obstacle position
+        score++;
+    } else {
+        obstacle.style.right = `${obstacleLeft + obstacleSpeed}px`;
+    }
 
-// Optional: Handle touch end if needed
-function handleTouchEnd(event) {
-    // Example: Reset any touch-related states or actions
-}
+    // Check for collision
+    const playerRect = player.getBoundingClientRect();
+    const obstacleRect = obstacle.getBoundingClientRect();
 
-// Add event listeners for touch input
-document.addEventListener('touchstart', handleTouchStart);
-document.addEventListener('touchmove', handleTouchMove);
-document.addEventListener('touchend', handleTouchEnd);
-
-// Example function that could be called when the player collects an item
-function onItemCollected() {
-    increaseScore(10); // Increase score by 10
-}
-
-// Example game logic
-function setupGame() {
-    // Example: simulate item collection every 5 seconds
-    setInterval(onItemCollected, 5000);
+    if (
+        playerRect.left < obstacleRect.right &&
+        playerRect.right > obstacleRect.left &&
+        playerRect.bottom > obstacleRect.top &&
+        playerRect.top < obstacleRect.bottom
+    ) {
+        alert('Game Over! Your score: ' + score);
+        score = 0;
+        obstacle.style.right = '-60px'; // Reset obstacle position
+    }
 }
 
 // Game loop
-function gameLoop() {
-    // Your main game logic goes here
-
-    // Example: Update game state, handle collisions, etc.
-
-    // Continue game loop
-    requestAnimationFrame(gameLoop);
-}
-
-// Start the game
-function startGame() {
-    setupGame();
-    gameLoop();
-}
-
-// Start the game when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    startGame();
-});
+setInterval(() => {
+    moveObstacle();
+}, 20); // Update game every 20ms
