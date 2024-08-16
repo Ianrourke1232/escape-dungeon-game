@@ -7,7 +7,7 @@ let score = 0;
 
 const jumpHeight = 400; // Height of the jump in pixels
 const jumpDuration = 500; // Duration of the jump in milliseconds
-const obstacleSpeed = 100; // Speed of the obstacle movement
+const obstacleSpeed = 20; // Speed of the obstacle movement
 
 // Function to make the player jump
 function jump() {
