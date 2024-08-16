@@ -5,7 +5,7 @@ const gameContainer = document.querySelector('.game-container');
 let isJumping = false;
 let score = 0;
 
-const jumpHeight = 400; // Height of the jump in pixels
+const jumpHeight =200; // Height of the jump in pixels
 const jumpDuration = 200; // Duration of the jump in milliseconds
 const obstacleSpeed = 20; // Speed of the obstacle movement
 
