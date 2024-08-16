@@ -6,8 +6,8 @@ let isJumping = false;
 let score = 0;
 
 // Game settings
-const jumpHeight = 600; // Height of the jump in pixels
-const jumpDuration = 700; // Duration of the jump in milliseconds
+const jumpHeight = 300; // Height of the jump in pixels
+const jumpDuration = 900; // Duration of the jump in milliseconds
 const obstacleSpeed = 7; // Speed of the obstacle movement
 
 // Function to make the player jump
@@ -65,4 +65,4 @@ function moveObstacle() {
 // Game loop
 setInterval(() => {
     moveObstacle();
-}, 20); // Update game every 20ms
+}, 10); // Update game every 20ms
