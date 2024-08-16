@@ -49,10 +49,9 @@ body {
 }
 
 /* Obstacle Styling */
-#obstacle {
+.obstacle {
     position: absolute;
     bottom: 50px;
-    right: -60px;
     width: 60px;
     height: 60px;
     background-color: #FF4500; /* Orange Obstacle */
@@ -80,3 +79,33 @@ body {
     padding: 5px 10px;
     border-radius: 5px;
 }
+
+/* Game Over Screen Styling */
+#game-over-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+#game-over-screen h1 {
+    margin: 0;
+}
+
+#game-over-screen p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+#restart-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
