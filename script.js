@@ -72,3 +72,4 @@ document.addEventListener('keydown', (event) => {
 window.addEventListener('load', () => {
     startScreen.style.display = 'block'; // Show start screen on page load
 });
+
