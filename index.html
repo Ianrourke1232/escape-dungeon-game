@@ -17,11 +17,18 @@
     <!-- Game Container -->
     <div class="game-container" style="display: none;">
         <div id="player"></div>
-        <div id="obstacle"></div>
         <div id="ground"></div>
         <div id="score">Score: 0</div> <!-- Scoreboard element -->
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="game-over-screen" style="display: none;">
+        <h1>Game Over</h1>
+        <p>Score: <span id="final-score">0</span></p>
+        <button id="restart-button">Restart</button>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
