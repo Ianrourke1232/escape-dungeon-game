@@ -2,7 +2,8 @@
 let score = 0;
 let obstacles = [];
 let gameInterval;
-let obstacleSpeed = 3; // Speed at which obstacles move
+const obstacleSpeed = 5; // Speed at which obstacles move
+const obstacleFrequency = 2000; // Frequency of obstacle creation in milliseconds
 const player = document.getElementById('player');
 const scoreDisplay = document.getElementById('score');
 const startScreen = document.getElementById('start-screen');
@@ -26,6 +27,7 @@ function initializeGame() {
     document.addEventListener('keydown', handleJump);
     document.addEventListener('touchstart', handleJump);
     gameInterval = setInterval(gameLoop, 20); // Start the game loop
+    setInterval(createObstacle, obstacleFrequency); // Create obstacles at intervals
 }
 
 // Function to increase the score
@@ -45,7 +47,7 @@ function createObstacle() {
     const obstacle = document.createElement('div');
     obstacle.className = 'obstacle';
     obstacle.style.left = `${Math.random() * (window.innerWidth - 60)}px`; // Random horizontal position
-    obstacle.style.top = '-60px'; // Start off-screen
+    obstacle.style.bottom = '50px'; // Position on the ground
     gameContainer.appendChild(obstacle);
     obstacles.push(obstacle);
 }
@@ -53,14 +55,13 @@ function createObstacle() {
 // Function to move obstacles and check if they go off screen
 function moveObstacles() {
     obstacles.forEach((obstacle, index) => {
-        let top = parseFloat(obstacle.style.top);
-        top += obstacleSpeed;
-        obstacle.style.top = `${top}px`;
+        let left = parseFloat(obstacle.style.left);
+        left -= obstacleSpeed; // Move obstacles left
+        obstacle.style.left = `${left}px`;
 
-        if (top > window.innerHeight) {
+        if (left < -60) { // Remove obstacle if it goes off screen
             obstacle.remove();
             obstacles.splice(index, 1); // Remove from array
-            createObstacle(); // Create a new obstacle
             increaseScore(); // Increase score for each obstacle avoided
         }
     });
@@ -127,4 +128,3 @@ restartButton.addEventListener('click', restartGame); // Restart game on button 
 window.addEventListener('load', () => {
     startScreen.style.display = 'block'; // Show start screen on page load
 });
-
