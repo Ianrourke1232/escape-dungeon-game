@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escape Dungeon</title>
+    <title>Jumping Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="game-container">
+    <!-- Start Screen -->
+    <div id="start-screen">
+        <h1>Jumping Game</h1>
+        <p>Tap to Start</p>
+        <p>Press SPACE to Jump</p>
+    </div>
+
+    <!-- Game Container -->
+    <div class="game-container" style="display: none;">
         <div id="player"></div>
         <div id="obstacle"></div>
         <div id="ground"></div>
         <div id="score">Score: 0</div> <!-- Scoreboard element -->
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
