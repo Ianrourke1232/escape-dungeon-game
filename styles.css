@@ -16,13 +16,13 @@ body {
 #player {
     position: absolute;
     bottom: 5vh; /* Use viewport height units for better responsiveness */
-    left: 10vw; /* Push in from the side */
+    left: 10vw; /* Fixed position */
     width: 10vw; /* Responsive width */
     height: 10vw; /* Responsive height */
     max-width: 50px; /* Maximum size limit */
     max-height: 50px;
     background-color: #FFD700; /* Yellow Player */
-    transition: bottom 0.2s ease, left 0.2s ease; /* Smooth jump transitions */
+    transition: bottom 0.2s ease; /* Smooth jump transitions */
 }
 
 #obstacle {
