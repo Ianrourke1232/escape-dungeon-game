@@ -114,25 +114,6 @@ body {
     transform: translate(-50%, -50%);
     width: 80%;
     max-width: 300px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    display: none;
-    text-align: center; /* Center text for mobile */
-}
+    background-color: rgba(0, 0, 0
 
-#gameOverMessage h1 {
-    margin-bottom: 10px;
-}
-
-#gameOverMessage p {
-    margin-bottom: 20px;
-}
-
-#gameOverMessage button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-}
 
