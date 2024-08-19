@@ -1,3 +1,8 @@
+/* Prevent zoom on mobile devices */
+meta[name="viewport"] {
+    content: "width=device-width, initial-scale=1.0, user-scalable=no";
+}
+
 body {
     margin: 0;
     overflow: hidden;
@@ -15,8 +20,8 @@ body {
 
 #player {
     position: absolute;
-    bottom: 5vh; /* Use viewport height units for better responsiveness */
-    left: 10vw; /* Fixed position */
+    bottom: 5vh; /* Responsive height */
+    left: 10vw; /* Responsive width */
     width: 10vw; /* Responsive width */
     height: 10vw; /* Responsive height */
     max-width: 50px; /* Maximum size limit */
