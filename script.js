@@ -85,6 +85,7 @@ function endGame() {
     clearInterval(gameInterval); // Stop the game loop
     gameOverMessage.style.display = 'flex'; // Show game over message
     scoreDisplay.classList.add('hidden');
+    document.getElementById('finalScore').textContent = score;
 }
 
 // Function to restart the game
