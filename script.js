@@ -7,9 +7,9 @@ const scoreValue = document.getElementById('scoreValue');
 let isJumping = false;
 let score = 0;
 
-const jumpHeight = 190; // Height of the jump in pixels
+const jumpHeight = 30; // Adjusted for mobile-friendly responsiveness
 const jumpDuration = 200; // Duration of the jump in milliseconds
-const obstacleSpeed = 10; // Speed of the obstacle movement (much faster)
+const obstacleSpeed = 10; // Speed of the obstacle movement
 
 let gameInterval;
 
@@ -20,18 +20,18 @@ function jump() {
 
     // Animate the jump
     player.style.transition = `bottom ${jumpDuration / 2}ms ease-in`;
-    player.style.bottom = `${jumpHeight}px`;
+    player.style.bottom = `${jumpHeight}vh`;
 
     setTimeout(() => {
-        player.style.transition = `bottom ${jumpDuration / 2}ms ease-out`;
-        player.style.bottom = '50px';
+        player.style.transition = `bottom ${jumpDuration / 3}ms ease-out`;
+        player.style.bottom = '5vh';
         setTimeout(() => {
             isJumping = false;
-        }, jumpDuration / 2);
-    }, jumpDuration / 2);
+        }, jumpDuration / 3);
+    }, jumpDuration / 3);
 }
 
-// Event listener for the spacebar to jump
+// Event listener for the spacebar and touch to jump
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
         jump();
@@ -73,7 +73,7 @@ function startGame() {
     obstacle.style.right = '-60px'; // Reset obstacle position
     gameInterval = setInterval(() => {
         moveObstacle();
-    }, 20); // Update game every 20ms
+    }, 15); // Update game every 20ms
 }
 
 // Function to end the game
