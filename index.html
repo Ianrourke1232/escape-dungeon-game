@@ -9,10 +9,10 @@
 <body>
     <div class="instructions-overlay" id="instructions">
         <h1>Jumping Game</h1>
-        <p>Press the Spacebar to Jump</p>
+        <p>Tap the screen or press the Spacebar to Jump</p>
         <button onclick="startGame()">Start Game</button>
     </div>
-    <div class="game-container" id="gameContainer">
+    <div class="game-container" id="gameContainer" ontouchstart="jump()">
         <div id="player"></div>
         <div id="obstacle"></div>
         <div id="ground"></div>
@@ -21,4 +21,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
