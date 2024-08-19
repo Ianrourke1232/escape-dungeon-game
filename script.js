@@ -127,10 +127,3 @@ restartBtn.addEventListener('click', restartGame);
 fullscreenBtn.addEventListener('click', toggleFullscreen);
 jumpBtn.addEventListener('click', jump);
 
-// Adjust for mobile screen
-window.addEventListener('resize', () => {
-    // Ensure proper handling of fullscreen and resizing
-    if (document.fullscreenElement) {
-        document.exitFullscreen();
-    }
-});
