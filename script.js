@@ -7,12 +7,14 @@ const scoreValue = document.getElementById('scoreValue');
 const gameOverMessage = document.getElementById('gameOverMessage');
 const restartBtn = document.getElementById('restartBtn');
 const fullscreenBtn = document.getElementById('fullscreenBtn');
+const startBtn = document.getElementById('startBtn');
+const jumpBtn = document.getElementById('jumpBtn');
 let isJumping = false;
 let score = 0;
 
 const jumpHeight = 50; // Height of the jump (in vh units)
 const jumpDuration = 200; // Duration of the jump in milliseconds
-const obstacleSpeed = 15; // Adjusted speed of the obstacle movement
+const obstacleSpeed = 15; // Speed of the obstacle movement
 
 let gameInterval;
 
@@ -101,7 +103,7 @@ function toggleFullscreen() {
             gameContainer.requestFullscreen();
         } else if (gameContainer.mozRequestFullScreen) { // Firefox
             gameContainer.mozRequestFullScreen();
-        } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+        } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
             gameContainer.webkitRequestFullscreen();
         } else if (gameContainer.msRequestFullscreen) { // IE/Edge
             gameContainer.msRequestFullscreen();
@@ -111,7 +113,7 @@ function toggleFullscreen() {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) { // Firefox
             document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
             document.webkitExitFullscreen();
         } else if (document.msExitFullscreen) { // IE/Edge
             document.msExitFullscreen();
@@ -119,11 +121,17 @@ function toggleFullscreen() {
     }
 }
 
-// Event listener for fullscreen button
-fullscreenBtn.addEventListener('click', toggleFullscreen);
-
-// Event listener for restart button
+// Event listeners
+startBtn.addEventListener('click', startGame);
 restartBtn.addEventListener('click', restartGame);
+fullscreenBtn.addEventListener('click', toggleFullscreen);
+jumpBtn.addEventListener('click', jump);
 
-// Mobile-friendly tap to jump
-gameContainer.addEventListener('touchstart', jump);
+// Adjust for mobile screen
+window.addEventListener('resize', () => {
+    // Ensure proper handling of fullscreen and resizing
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    }
+});
+
