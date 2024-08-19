@@ -2,12 +2,14 @@
 const player = document.getElementById('player');
 const obstacle = document.getElementById('obstacle');
 const gameContainer = document.getElementById('gameContainer');
+const scoreDisplay = document.getElementById('score');
+const scoreValue = document.getElementById('scoreValue');
 let isJumping = false;
 let score = 0;
 
 const jumpHeight = 190; // Height of the jump in pixels
-const jumpDuration = 300; // Duration of the jump in milliseconds
-const obstacleSpeed = 5; // Speed of the obstacle movement (increased)
+const jumpDuration = 200; // Duration of the jump in milliseconds
+const obstacleSpeed = 10; // Speed of the obstacle movement (much faster)
 
 let gameInterval;
 
@@ -43,6 +45,7 @@ function moveObstacle() {
     if (obstacleLeft >= window.innerWidth) {
         obstacle.style.right = '-60px'; // Reset obstacle position
         score++;
+        scoreValue.textContent = score;
     } else {
         obstacle.style.right = `${obstacleLeft + obstacleSpeed}px`;
     }
@@ -57,17 +60,26 @@ function moveObstacle() {
         playerRect.bottom > obstacleRect.top &&
         playerRect.top < obstacleRect.bottom
     ) {
-        alert('Game Over! Your score: ' + score);
-        clearInterval(gameInterval); // Stop the game loop
-        score = 0;
-        obstacle.style.right = '-60px'; // Reset obstacle position
+        endGame();
     }
 }
 
 // Function to start the game
 function startGame() {
     document.getElementById('instructions').style.display = 'none';
+    scoreDisplay.classList.remove('hidden');
+    score = 0;
+    scoreValue.textContent = score;
+    obstacle.style.right = '-60px'; // Reset obstacle position
     gameInterval = setInterval(() => {
         moveObstacle();
     }, 20); // Update game every 20ms
+}
+
+// Function to end the game
+function endGame() {
+    clearInterval(gameInterval); // Stop the game loop
+    alert('Game Over! Your score: ' + score);
+    scoreDisplay.classList.add('hidden');
+    document.getElementById('instructions').style.display = 'flex'; // Show instructions again
 }
