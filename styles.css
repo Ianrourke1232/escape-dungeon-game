@@ -16,7 +16,7 @@ body {
 #player {
     position: absolute;
     bottom: 5vh; /* Use viewport height units for better responsiveness */
-    left: 5vw; /* Use viewport width units */
+    left: 10vw; /* Push in from the side */
     width: 10vw; /* Responsive width */
     height: 10vw; /* Responsive height */
     max-width: 50px; /* Maximum size limit */
@@ -85,4 +85,18 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     padding: 5px;
     border-radius: 5px;
+}
+
+#fullscreenBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1rem;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
 }
