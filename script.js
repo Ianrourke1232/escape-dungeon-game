@@ -4,12 +4,13 @@ const obstacle = document.getElementById('obstacle');
 const gameContainer = document.getElementById('gameContainer');
 const scoreDisplay = document.getElementById('score');
 const scoreValue = document.getElementById('scoreValue');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
 let isJumping = false;
 let score = 0;
 
 const jumpHeight = 50; // Height of the jump (in vh units)
 const jumpDuration = 200; // Duration of the jump in milliseconds
-const obstacleSpeed = 20; // Speed of the obstacle movement
+const obstacleSpeed = 10; // Adjusted speed of the obstacle movement
 
 let gameInterval;
 
@@ -74,7 +75,7 @@ function startGame() {
     obstacle.style.right = '-60px'; // Reset obstacle position
     gameInterval = setInterval(() => {
         moveObstacle();
-    }, 10); // Update game every 10ms for faster gameplay
+    }, 15); // Update game every 15ms for appropriate gameplay speed
 }
 
 // Function to end the game
@@ -110,13 +111,9 @@ function toggleFullscreen() {
     }
 }
 
+// Event listener for fullscreen button
+fullscreenBtn.addEventListener('click', toggleFullscreen);
+
 // Mobile-friendly tap to jump
 gameContainer.addEventListener('touchstart', jump);
 
-// Prevent fullscreen toggle on spacebar
-document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
-        e.preventDefault(); // Prevent spacebar from toggling fullscreen mode
-        jump(); // Only perform the jump action
-    }
-});
