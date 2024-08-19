@@ -1,13 +1,15 @@
 // Game variables
 const player = document.getElementById('player');
 const obstacle = document.getElementById('obstacle');
-const gameContainer = document.querySelector('.game-container');
+const gameContainer = document.getElementById('gameContainer');
 let isJumping = false;
 let score = 0;
 
-const jumpHeight =190; // Height of the jump in pixels
+const jumpHeight = 190; // Height of the jump in pixels
 const jumpDuration = 300; // Duration of the jump in milliseconds
-const obstacleSpeed = 2; // Speed of the obstacle movement
+const obstacleSpeed = 5; // Speed of the obstacle movement (increased)
+
+let gameInterval;
 
 // Function to make the player jump
 function jump() {
@@ -56,12 +58,16 @@ function moveObstacle() {
         playerRect.top < obstacleRect.bottom
     ) {
         alert('Game Over! Your score: ' + score);
+        clearInterval(gameInterval); // Stop the game loop
         score = 0;
         obstacle.style.right = '-60px'; // Reset obstacle position
     }
 }
 
-// Game loop
-setInterval(() => {
-    moveObstacle();
-}, 20); // Update game every 20ms
+// Function to start the game
+function startGame() {
+    document.getElementById('instructions').style.display = 'none';
+    gameInterval = setInterval(() => {
+        moveObstacle();
+    }, 20); // Update game every 20ms
+}
