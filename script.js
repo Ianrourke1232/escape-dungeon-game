@@ -7,9 +7,9 @@ const scoreValue = document.getElementById('scoreValue');
 let isJumping = false;
 let score = 0;
 
-const jumpHeight = 30; // Adjusted for mobile-friendly responsiveness
+const jumpHeight = 20; // Height of the jump (in vh units)
 const jumpDuration = 200; // Duration of the jump in milliseconds
-const obstacleSpeed = 10; // Speed of the obstacle movement
+const obstacleSpeed = 5; // Speed of the obstacle movement
 
 let gameInterval;
 
@@ -19,23 +19,20 @@ function jump() {
     isJumping = true;
 
     // Animate the jump
-    player.style.transition = `bottom ${jumpDuration / 2}ms ease-in, left ${jumpDuration / 2}ms ease-in`;
     player.style.bottom = `${jumpHeight}vh`;
-    player.style.left = `15vw`; // Move the player slightly forward when jumping
 
     setTimeout(() => {
-        player.style.transition = `bottom ${jumpDuration / 2}ms ease-out, left ${jumpDuration / 2}ms ease-out`;
         player.style.bottom = '5vh';
-        player.style.left = `10vw`; // Move the player back to the original position
         setTimeout(() => {
             isJumping = false;
         }, jumpDuration / 2);
     }, jumpDuration / 2);
 }
 
-// Event listener for the spacebar and touch to jump
+// Event listener for the spacebar to jump
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
+        e.preventDefault(); // Prevent exiting fullscreen mode on spacebar
         jump();
     }
 });
