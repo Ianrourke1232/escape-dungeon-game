@@ -7,9 +7,9 @@ const scoreValue = document.getElementById('scoreValue');
 let isJumping = false;
 let score = 0;
 
-const jumpHeight = 40; // Increased height of the jump (in vh units)
+const jumpHeight = 50; // Height of the jump (in vh units)
 const jumpDuration = 200; // Duration of the jump in milliseconds
-const obstacleSpeed = 15; // Increased speed of the obstacle movement
+const obstacleSpeed = 20; // Speed of the obstacle movement
 
 let gameInterval;
 
@@ -19,9 +19,11 @@ function jump() {
     isJumping = true;
 
     // Animate the jump
+    player.style.transition = `bottom ${jumpDuration / 2}ms ease-in`;
     player.style.bottom = `${jumpHeight}vh`;
 
     setTimeout(() => {
+        player.style.transition = `bottom ${jumpDuration / 2}ms ease-out`;
         player.style.bottom = '5vh';
         setTimeout(() => {
             isJumping = false;
@@ -72,7 +74,7 @@ function startGame() {
     obstacle.style.right = '-60px'; // Reset obstacle position
     gameInterval = setInterval(() => {
         moveObstacle();
-    }, 20); // Update game every 20ms
+    }, 10); // Update game every 10ms for faster gameplay
 }
 
 // Function to end the game
@@ -94,6 +96,16 @@ function toggleFullscreen() {
             gameContainer.webkitRequestFullscreen();
         } else if (gameContainer.msRequestFullscreen) { // IE/Edge
             gameContainer.msRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
         }
     }
 }
