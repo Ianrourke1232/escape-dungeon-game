@@ -4,7 +4,8 @@ const obstacle = document.getElementById('obstacle');
 const gameContainer = document.getElementById('gameContainer');
 const scoreDisplay = document.getElementById('score');
 const scoreValue = document.getElementById('scoreValue');
-const fullscreenBtn = document.getElementById('fullscreenBtn');
+const gameOverMessage = document.getElementById('gameOverMessage');
+const restartBtn = document.getElementById('restartBtn');
 let isJumping = false;
 let score = 0;
 
@@ -70,6 +71,7 @@ function moveObstacle() {
 function startGame() {
     document.getElementById('instructions').style.display = 'none';
     scoreDisplay.classList.remove('hidden');
+    gameOverMessage.style.display = 'none';
     score = 0;
     scoreValue.textContent = score;
     obstacle.style.right = '-60px'; // Reset obstacle position
@@ -81,9 +83,13 @@ function startGame() {
 // Function to end the game
 function endGame() {
     clearInterval(gameInterval); // Stop the game loop
-    alert('Game Over! Your score: ' + score);
+    gameOverMessage.style.display = 'flex'; // Show game over message
     scoreDisplay.classList.add('hidden');
-    document.getElementById('instructions').style.display = 'flex'; // Show instructions again
+}
+
+// Function to restart the game
+function restartGame() {
+    startGame();
 }
 
 // Function to toggle fullscreen mode
@@ -114,6 +120,8 @@ function toggleFullscreen() {
 // Event listener for fullscreen button
 fullscreenBtn.addEventListener('click', toggleFullscreen);
 
+// Event listener for restart button
+restartBtn.addEventListener('click', restartGame);
+
 // Mobile-friendly tap to jump
 gameContainer.addEventListener('touchstart', jump);
-
