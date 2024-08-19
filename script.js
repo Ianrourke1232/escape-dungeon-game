@@ -7,9 +7,9 @@ const scoreValue = document.getElementById('scoreValue');
 let isJumping = false;
 let score = 0;
 
-const jumpHeight = 20; // Height of the jump (in vh units)
+const jumpHeight = 40; // Increased height of the jump (in vh units)
 const jumpDuration = 200; // Duration of the jump in milliseconds
-const obstacleSpeed = 10; // Speed of the obstacle movement
+const obstacleSpeed = 15; // Increased speed of the obstacle movement
 
 let gameInterval;
 
@@ -86,11 +86,20 @@ function endGame() {
 // Function to toggle fullscreen mode
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
-        gameContainer.requestFullscreen().catch(err => {
-            alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-        });
+        if (gameContainer.requestFullscreen) {
+            gameContainer.requestFullscreen();
+        } else if (gameContainer.mozRequestFullScreen) { // Firefox
+            gameContainer.mozRequestFullScreen();
+        } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+            gameContainer.webkitRequestFullscreen();
+        } else if (gameContainer.msRequestFullscreen) { // IE/Edge
+            gameContainer.msRequestFullscreen();
+        }
     }
 }
+
+// Mobile-friendly tap to jump
+gameContainer.addEventListener('touchstart', jump);
 
 // Prevent fullscreen toggle on spacebar
 document.addEventListener('keydown', (e) => {
@@ -99,4 +108,3 @@ document.addEventListener('keydown', (e) => {
         jump(); // Only perform the jump action
     }
 });
-
