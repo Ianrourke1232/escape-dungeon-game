@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="game-container">
+    <div class="instructions-overlay" id="instructions">
+        <h1>Jumping Game</h1>
+        <p>Press the Spacebar to Jump</p>
+        <button onclick="startGame()">Start Game</button>
+    </div>
+    <div class="game-container" id="gameContainer">
         <div id="player"></div>
         <div id="obstacle"></div>
         <div id="ground"></div>
