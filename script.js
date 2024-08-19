@@ -19,16 +19,18 @@ function jump() {
     isJumping = true;
 
     // Animate the jump
-    player.style.transition = `bottom ${jumpDuration / 2}ms ease-in`;
+    player.style.transition = `bottom ${jumpDuration / 2}ms ease-in, left ${jumpDuration / 2}ms ease-in`;
     player.style.bottom = `${jumpHeight}vh`;
+    player.style.left = `15vw`; // Move the player slightly forward when jumping
 
     setTimeout(() => {
-        player.style.transition = `bottom ${jumpDuration / 3}ms ease-out`;
+        player.style.transition = `bottom ${jumpDuration / 2}ms ease-out, left ${jumpDuration / 2}ms ease-out`;
         player.style.bottom = '5vh';
+        player.style.left = `10vw`; // Move the player back to the original position
         setTimeout(() => {
             isJumping = false;
-        }, jumpDuration / 3);
-    }, jumpDuration / 3);
+        }, jumpDuration / 2);
+    }, jumpDuration / 2);
 }
 
 // Event listener for the spacebar and touch to jump
@@ -73,7 +75,7 @@ function startGame() {
     obstacle.style.right = '-60px'; // Reset obstacle position
     gameInterval = setInterval(() => {
         moveObstacle();
-    }, 15); // Update game every 20ms
+    }, 20); // Update game every 20ms
 }
 
 // Function to end the game
@@ -83,3 +85,15 @@ function endGame() {
     scoreDisplay.classList.add('hidden');
     document.getElementById('instructions').style.display = 'flex'; // Show instructions again
 }
+
+// Function to toggle fullscreen mode
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        gameContainer.requestFullscreen().catch(err => {
+            alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+}
+
