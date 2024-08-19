@@ -9,7 +9,7 @@ let score = 0;
 
 const jumpHeight = 20; // Height of the jump (in vh units)
 const jumpDuration = 200; // Duration of the jump in milliseconds
-const obstacleSpeed = 5; // Speed of the obstacle movement
+const obstacleSpeed = 10; // Speed of the obstacle movement
 
 let gameInterval;
 
@@ -89,8 +89,14 @@ function toggleFullscreen() {
         gameContainer.requestFullscreen().catch(err => {
             alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
         });
-    } else {
-        document.exitFullscreen();
     }
 }
+
+// Prevent fullscreen toggle on spacebar
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+        e.preventDefault(); // Prevent spacebar from toggling fullscreen mode
+        jump(); // Only perform the jump action
+    }
+});
 
