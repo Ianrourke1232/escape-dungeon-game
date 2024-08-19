@@ -6,12 +6,13 @@ const scoreDisplay = document.getElementById('score');
 const scoreValue = document.getElementById('scoreValue');
 const gameOverMessage = document.getElementById('gameOverMessage');
 const restartBtn = document.getElementById('restartBtn');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
 let isJumping = false;
 let score = 0;
 
 const jumpHeight = 50; // Height of the jump (in vh units)
 const jumpDuration = 200; // Duration of the jump in milliseconds
-const obstacleSpeed = 10; // Adjusted speed of the obstacle movement
+const obstacleSpeed = 15; // Adjusted speed of the obstacle movement
 
 let gameInterval;
 
@@ -36,7 +37,7 @@ function jump() {
 // Event listener for the spacebar to jump
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
-        e.preventDefault(); // Prevent exiting fullscreen mode on spacebar
+        e.preventDefault(); // Prevent default action
         jump();
     }
 });
