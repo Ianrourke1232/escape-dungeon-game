@@ -134,4 +134,3 @@ window.addEventListener('resize', () => {
         document.exitFullscreen();
     }
 });
-
