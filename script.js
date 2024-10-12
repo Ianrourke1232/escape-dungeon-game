@@ -11,11 +11,11 @@ const startBtn = document.getElementById('startBtn');
 const jumpBtn = document.getElementById('jumpBtn');
 let isJumping = false;
 let score = 0;
+let difficulty = 1;
 
 const jumpHeight = 50; // Height of the jump (in vh units)
-const jumpDuration = 200; // Duration of the jump in milliseconds
-const obstacleSpeed = 15; // Speed of the obstacle movement
-
+const baseObstacleSpeed = 15; // Base speed of the obstacle movement
+let obstacleSpeed = baseObstacleSpeed; // Current speed of the obstacle
 let gameInterval;
 
 // Function to make the player jump
@@ -36,22 +36,16 @@ function jump() {
     }, jumpDuration / 2);
 }
 
-// Event listener for the spacebar to jump
-document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
-        e.preventDefault(); // Prevent default action
-        jump();
-    }
-});
-
 // Function to move the obstacle and check for collisions
 function moveObstacle() {
     let obstacleLeft = parseFloat(window.getComputedStyle(obstacle).right);
 
+    // Reset obstacle position and increase score
     if (obstacleLeft >= window.innerWidth) {
         obstacle.style.right = '-60px'; // Reset obstacle position
         score++;
         scoreValue.textContent = score;
+        updateDifficulty();
     } else {
         obstacle.style.right = `${obstacleLeft + obstacleSpeed}px`;
     }
@@ -70,14 +64,29 @@ function moveObstacle() {
     }
 }
 
+// Function to update difficulty
+function updateDifficulty() {
+    if (score % 5 === 0) { // Increase difficulty every 5 points
+        difficulty++;
+        obstacleSpeed += 2; // Increase speed
+        let newSize = Math.random() * (100 - 30) + 30; // Random size between 30px and 100px
+        obstacle.style.width = `${newSize}px`;
+        obstacle.style.height = `${newSize}px`;
+    }
+}
+
 // Function to start the game
 function startGame() {
     document.getElementById('instructions').style.display = 'none';
     scoreDisplay.classList.remove('hidden');
     gameOverMessage.style.display = 'none';
     score = 0;
+    difficulty = 1; // Reset difficulty
+    obstacleSpeed = baseObstacleSpeed; // Reset speed
     scoreValue.textContent = score;
     obstacle.style.right = '-60px'; // Reset obstacle position
+    obstacle.style.width = '60px'; // Reset obstacle size
+    obstacle.style.height = '60px'; // Reset obstacle size
     gameInterval = setInterval(() => {
         moveObstacle();
     }, 15); // Update game every 15ms for appropriate gameplay speed
@@ -91,38 +100,12 @@ function endGame() {
     document.getElementById('finalScore').textContent = score;
 }
 
-// Function to restart the game
-function restartGame() {
-    startGame();
-}
-
-// Function to toggle fullscreen mode
-function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-        if (gameContainer.requestFullscreen) {
-            gameContainer.requestFullscreen();
-        } else if (gameContainer.mozRequestFullScreen) { // Firefox
-            gameContainer.mozRequestFullScreen();
-        } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
-            gameContainer.webkitRequestFullscreen();
-        } else if (gameContainer.msRequestFullscreen) { // IE/Edge
-            gameContainer.msRequestFullscreen();
-        }
-    } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) { // Firefox
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { // IE/Edge
-            document.msExitFullscreen();
-        }
-    }
-}
-
 // Event listeners
 startBtn.addEventListener('click', startGame);
 restartBtn.addEventListener('click', restartGame);
 fullscreenBtn.addEventListener('click', toggleFullscreen);
 jumpBtn.addEventListener('click', jump);
+
+// Initial styles for the obstacle
+obstacle.style.width = '60px';
+obstacle.style.height = '60px';
