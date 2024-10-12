@@ -87,5 +87,6 @@ document.addEventListener("keydown", (event) => {
 
 document.addEventListener("click", jump);
 
+// Start generating obstacles
 startObstacleGeneration();
 
