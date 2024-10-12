@@ -3,30 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jumping Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Jump Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #282c34;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 80vh;
+            border: 2px solid #ffffff;
+            overflow: hidden;
+        }
+
+        #player {
+            position: absolute;
+            bottom: 5vh;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #FF4500;
+            border-radius: 10px;
+        }
+
+        #obstacle, #flyingObstacle, #powerUp {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #00FF00;
+            border-radius: 10px;
+        }
+
+        #flyingObstacle {
+            background-color: #FFA500;
+            top: 50vh; /* Start flying obstacle at a higher position */
+        }
+
+        #powerUp {
+            background-color: #FFFF00;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+        }
+
+        #gameOverMessage {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #instructions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <div class="game-container" id="gameContainer">
+    <div id="gameContainer">
         <div id="player"></div>
         <div id="obstacle"></div>
-        <div id="ground"></div>
-        <div id="score" class="hidden">
-            Score: <span id="scoreValue">0</span>
-        </div>
-        <div id="gameOverMessage" class="hidden">
-            <h1>Game Over!</h1>
+        <div id="flyingObstacle"></div>
+        <div id="powerUp"></div>
+        <div id="score" class="hidden">Score: <span id="scoreValue">0</span></div>
+        <div id="gameOverMessage">
+            <h2>Game Over!</h2>
             <p>Your score: <span id="finalScore">0</span></p>
-            <button id="restartBtn">Restart Game</button>
+            <button id="restartBtn">Restart</button>
         </div>
-        <button id="fullscreenBtn">Fullscreen</button>
         <div id="instructions">
-            <h1>Jumping Game</h1>
-            <p>Press the <strong>Spacebar</strong> or tap the screen to jump over obstacles.</p>
+            <h3>Press Space to Jump</h3>
             <button id="startBtn">Start Game</button>
+            <button id="fullscreenBtn">Fullscreen</button>
         </div>
-        <button id="jumpBtn">Jump</button>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
+
