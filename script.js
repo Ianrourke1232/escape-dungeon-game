@@ -1,92 +1,129 @@
-const gameArea = document.getElementById("gameArea");
-const message = document.getElementById("message");
-const jumpHeight = 150;
+// Game variables
+const player = document.getElementById('player');
+const obstacle = document.getElementById('obstacle');
+const gameContainer = document.getElementById('gameContainer');
+const scoreDisplay = document.getElementById('score');
+const scoreValue = document.getElementById('scoreValue');
+const gameOverMessage = document.getElementById('gameOverMessage');
+const restartBtn = document.getElementById('restartBtn');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+const startBtn = document.getElementById('startBtn');
+const jumpBtn = document.getElementById('jumpBtn');
 let isJumping = false;
 let score = 0;
-let obstacleSpeed = 3;
-let obstacleFrequency = 1500; // Start generating obstacles every 1.5 seconds
-let obstacleSize = 50; // Initial size of the obstacles
 
-const player = document.createElement("div");
-player.classList.add("jump");
-gameArea.appendChild(player);
+const jumpHeight = 50; // Height of the jump (in vh units)
+const jumpDuration = 200; // Duration of the jump in milliseconds
+const obstacleSpeed = 15; // Speed of the obstacle movement
 
+let gameInterval;
+
+// Function to make the player jump
 function jump() {
     if (isJumping) return;
     isJumping = true;
-    player.style.transition = "transform 0.5s ease";
-    player.style.transform = `translateY(-${jumpHeight}px)`;
+
+    // Animate the jump
+    player.style.transition = `bottom ${jumpDuration / 2}ms ease-in`;
+    player.style.bottom = `${jumpHeight}vh`;
+
     setTimeout(() => {
-        player.style.transform = `translateY(0)`;
-        isJumping = false;
-    }, 500);
+        player.style.transition = `bottom ${jumpDuration / 2}ms ease-out`;
+        player.style.bottom = '5vh';
+        setTimeout(() => {
+            isJumping = false;
+        }, jumpDuration / 2);
+    }, jumpDuration / 2);
 }
 
-function createObstacle() {
-    const obstacle = document.createElement("div");
-    obstacle.classList.add("jump");
-    obstacle.style.backgroundColor = "green"; // Color for obstacles
-    obstacle.style.position = "absolute";
-    obstacle.style.bottom = "0";
-    obstacle.style.left = `${100}%`; // Start from the right side
-    obstacle.style.width = `${obstacleSize}px`;
-    obstacle.style.height = `${Math.random() * 100 + 30}px`; // Random height between 30px and 130px
-    gameArea.appendChild(obstacle);
-    
-    moveObstacle(obstacle);
-}
-
-function moveObstacle(obstacle) {
-    const obstacleInterval = setInterval(() => {
-        const obstacleRect = obstacle.getBoundingClientRect();
-        const playerRect = player.getBoundingClientRect();
-        
-        // Check for collision
-        if (
-            obstacleRect.right > playerRect.left &&
-            obstacleRect.left < playerRect.right &&
-            obstacleRect.bottom > playerRect.top
-        ) {
-            clearInterval(obstacleInterval);
-            message.textContent = "Game Over! Your score: " + score;
-            return;
-        }
-        
-        // Move obstacle to the left
-        obstacle.style.left = `${obstacleRect.left - obstacleSpeed}px`;
-        
-        // Remove obstacle when out of view
-        if (obstacleRect.right < 0) {
-            clearInterval(obstacleInterval);
-            gameArea.removeChild(obstacle);
-            score++;
-            increaseDifficulty();
-        }
-    }, 20);
-}
-
-function increaseDifficulty() {
-    if (score % 5 === 0) { // Every 5 points increase difficulty
-        obstacleSpeed += 0.5; // Increase speed
-        obstacleFrequency -= 100; // Decrease frequency
-        obstacleSize += 10; // Increase size
-        clearInterval(obstacleInterval);
-        startObstacleGeneration();
-    }
-}
-
-function startObstacleGeneration() {
-    setInterval(createObstacle, obstacleFrequency);
-}
-
-document.addEventListener("keydown", (event) => {
-    if (event.code === "Space") {
+// Event listener for the spacebar to jump
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+        e.preventDefault(); // Prevent default action
         jump();
     }
 });
 
-document.addEventListener("click", jump);
+// Function to move the obstacle and check for collisions
+function moveObstacle() {
+    let obstacleLeft = parseFloat(window.getComputedStyle(obstacle).right);
 
-// Start generating obstacles
-startObstacleGeneration();
+    if (obstacleLeft >= window.innerWidth) {
+        obstacle.style.right = '-60px'; // Reset obstacle position
+        score++;
+        scoreValue.textContent = score;
+    } else {
+        obstacle.style.right = `${obstacleLeft + obstacleSpeed}px`;
+    }
+
+    // Check for collision
+    const playerRect = player.getBoundingClientRect();
+    const obstacleRect = obstacle.getBoundingClientRect();
+
+    if (
+        playerRect.left < obstacleRect.right &&
+        playerRect.right > obstacleRect.left &&
+        playerRect.bottom > obstacleRect.top &&
+        playerRect.top < obstacleRect.bottom
+    ) {
+        endGame();
+    }
+}
+
+// Function to start the game
+function startGame() {
+    document.getElementById('instructions').style.display = 'none';
+    scoreDisplay.classList.remove('hidden');
+    gameOverMessage.style.display = 'none';
+    score = 0;
+    scoreValue.textContent = score;
+    obstacle.style.right = '-60px'; // Reset obstacle position
+    gameInterval = setInterval(() => {
+        moveObstacle();
+    }, 15); // Update game every 15ms for appropriate gameplay speed
+}
+
+// Function to end the game
+function endGame() {
+    clearInterval(gameInterval); // Stop the game loop
+    gameOverMessage.style.display = 'flex'; // Show game over message
+    scoreDisplay.classList.add('hidden');
+    document.getElementById('finalScore').textContent = score;
+}
+
+// Function to restart the game
+function restartGame() {
+    startGame();
+}
+
+// Function to toggle fullscreen mode
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        if (gameContainer.requestFullscreen) {
+            gameContainer.requestFullscreen();
+        } else if (gameContainer.mozRequestFullScreen) { // Firefox
+            gameContainer.mozRequestFullScreen();
+        } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            gameContainer.webkitRequestFullscreen();
+        } else if (gameContainer.msRequestFullscreen) { // IE/Edge
+            gameContainer.msRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
+        }
+    }
+}
+
+// Event listeners
+startBtn.addEventListener('click', startGame);
+restartBtn.addEventListener('click', restartGame);
+fullscreenBtn.addEventListener('click', toggleFullscreen);
+jumpBtn.addEventListener('click', jump);
 
