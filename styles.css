@@ -5,14 +5,12 @@ body {
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
 }
-
 #gameContainer {
     position: relative;
     width: 100vw;
     height: 100vh;
     background-color: #87CEEB; /* Sky blue background */
 }
-
 #player {
     position: absolute;
     bottom: 5vh;
@@ -24,8 +22,7 @@ body {
     background-color: #FFD700; /* Gold color */
     border-radius: 50%;
 }
-
-#obstacle, #flyingObstacle {
+#obstacle {
     position: absolute;
     right: -60px;
     width: 8vw;
@@ -35,24 +32,6 @@ body {
     background-color: #FF4500; /* Orange-red color */
     border-radius: 50%;
 }
-
-#flyingObstacle {
-    top: 20vh;
-    background-color: #8A2BE2; /* Purple color */
-}
-
-#powerUp {
-    position: absolute;
-    bottom: 10vh;
-    right: -60px;
-    width: 5vw;
-    height: 5vw;
-    max-width: 30px;
-    max-height: 30px;
-    background-color: #00FFFF; /* Cyan color */
-    border-radius: 50%;
-}
-
 #score {
     position: absolute;
     top: 5vh;
@@ -60,11 +39,9 @@ body {
     font-size: 2em;
     color: #333;
 }
-
 #score.hidden {
     display: none;
 }
-
 #gameOverMessage {
     display: none;
     position: absolute;
@@ -77,13 +54,11 @@ body {
     text-align: center;
     border-radius: 10px;
 }
-
 #gameOverMessage.flex {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
 .btn {
     margin-top: 10px;
     padding: 10px 20px;
@@ -93,7 +68,6 @@ body {
     cursor: pointer;
     border-radius: 5px;
 }
-
 #instructions {
     position: absolute;
     top: 30%;
@@ -103,3 +77,4 @@ body {
     text-align: center;
     color: #555;
 }
+
