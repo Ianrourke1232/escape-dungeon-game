@@ -7,13 +7,29 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="message">Jumping Game: Press the Spacebar or tap the screen to jump over obstacles</div>
-    <div id="gameArea"></div>
-    <audio id="background-audio" src="https://stream-176.zeno.fm/grtaewn8sxctv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJncnRhZXduOHN4Y3R2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkFuWjdkcVlTUkdpcHI0ZnZOVXZNVVEiLCJpYXQiOjE3Mjg3NjYzNTcsImV4cCI6MTcyODc2NjQxN30.IsbeGb-U98B5Ot7b_BL1SgdI-HudnOkVHGeyeahRn24" autoplay loop></audio>
+    <div class="game-container" id="gameContainer">
+        <div id="player"></div>
+        <div id="obstacle"></div>
+        <div id="ground"></div>
+        <div id="score" class="hidden">
+            Score: <span id="scoreValue">0</span>
+        </div>
+        <div id="gameOverMessage" class="hidden">
+            <h1>Game Over!</h1>
+            <p>Your score: <span id="finalScore">0</span></p>
+            <button id="restartBtn">Restart Game</button>
+        </div>
+        <button id="fullscreenBtn">Fullscreen</button>
+        <div id="instructions">
+            <h1>Jumping Game</h1>
+            <p>Press the <strong>Spacebar</strong> or tap the screen to jump over obstacles.</p>
+            <button id="startBtn">Start Game</button>
+        </div>
+        <button id="jumpBtn">Jump</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
-
 
 
 
