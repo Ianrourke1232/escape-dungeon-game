@@ -1,7 +1,8 @@
 // Game variables
 const player = document.getElementById('player');
 const obstacle = document.getElementById('obstacle');
-const gameContainer = document.getElementById('gameContainer');
+const flyingObstacle = document.getElementById('flyingObstacle');
+const powerUp = document.getElementById('powerUp');
 const scoreDisplay = document.getElementById('score');
 const scoreValue = document.getElementById('scoreValue');
 const gameOverMessage = document.getElementById('gameOverMessage');
@@ -11,19 +12,17 @@ const startBtn = document.getElementById('startBtn');
 const jumpBtn = document.getElementById('jumpBtn');
 let isJumping = false;
 let score = 0;
+let speedBoost = false;
 
-const jumpHeight = 50; // Height of the jump (in vh units)
-const jumpDuration = 200; // Duration of the jump in milliseconds
-const obstacleSpeed = 15; // Speed of the obstacle movement
-
+const jumpHeight = 50;
+const jumpDuration = 200;
+const obstacleSpeed = 15;
 let gameInterval;
 
-// Function to make the player jump
 function jump() {
     if (isJumping) return;
     isJumping = true;
 
-    // Animate the jump
     player.style.transition = `bottom ${jumpDuration / 2}ms ease-in`;
     player.style.bottom = `${jumpHeight}vh`;
 
@@ -36,29 +35,40 @@ function jump() {
     }, jumpDuration / 2);
 }
 
-// Event listener for the spacebar to jump
-document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
-        e.preventDefault(); // Prevent default action
-        jump();
-    }
-});
-
-// Function to move the obstacle and check for collisions
-function moveObstacle() {
+function moveElements() {
     let obstacleLeft = parseFloat(window.getComputedStyle(obstacle).right);
-
+    let flyingObstacleLeft = parseFloat(window.getComputedStyle(flyingObstacle).right);
+    let powerUpLeft = parseFloat(window.getComputedStyle(powerUp).right);
+    
     if (obstacleLeft >= window.innerWidth) {
-        obstacle.style.right = '-60px'; // Reset obstacle position
+        obstacle.style.right = '-60px';
         score++;
         scoreValue.textContent = score;
     } else {
         obstacle.style.right = `${obstacleLeft + obstacleSpeed}px`;
     }
 
-    // Check for collision
+    if (flyingObstacleLeft >= window.innerWidth) {
+        flyingObstacle.style.right = '-60px';
+        flyingObstacle.style.top = `${Math.random() * 50 + 20}vh`;
+    } else {
+        flyingObstacle.style.right = `${flyingObstacleLeft + (obstacleSpeed * 0.8)}px`;
+    }
+
+    if (powerUpLeft >= window.innerWidth) {
+        powerUp.style.right = '-60px';
+    } else {
+        powerUp.style.right = `${powerUpLeft + (obstacleSpeed * 0.5)}px`;
+    }
+
+    checkCollisions();
+}
+
+function checkCollisions() {
     const playerRect = player.getBoundingClientRect();
     const obstacleRect = obstacle.getBoundingClientRect();
+    const flyingObstacleRect = flyingObstacle.getBoundingClientRect();
+    const powerUpRect = powerUp.getBoundingClientRect();
 
     if (
         playerRect.left < obstacleRect.right &&
@@ -68,62 +78,71 @@ function moveObstacle() {
     ) {
         endGame();
     }
+
+    if (
+        playerRect.left < flyingObstacleRect.right &&
+        playerRect.right > flyingObstacleRect.left &&
+        playerRect.bottom > flyingObstacleRect.top &&
+        playerRect.top < flyingObstacleRect.bottom
+    ) {
+        endGame();
+    }
+
+    if (
+        playerRect.left < powerUpRect.right &&
+        playerRect.right > powerUpRect.left &&
+        playerRect.bottom > powerUpRect.top &&
+        playerRect.top < powerUpRect.bottom
+    ) {
+        activatePowerUp();
+        powerUp.style.right = '-60px';
+    }
 }
 
-// Function to start the game
+function activatePowerUp() {
+    if (!speedBoost) {
+        speedBoost = true;
+        obstacle.style.backgroundColor = '#FF0000';
+        setTimeout(() => {
+            speedBoost = false;
+            obstacle.style.backgroundColor = '#FF4500';
+        }, 5000);
+    }
+}
+
 function startGame() {
     document.getElementById('instructions').style.display = 'none';
     scoreDisplay.classList.remove('hidden');
     gameOverMessage.style.display = 'none';
     score = 0;
     scoreValue.textContent = score;
-    obstacle.style.right = '-60px'; // Reset obstacle position
-    gameInterval = setInterval(() => {
-        moveObstacle();
-    }, 15); // Update game every 15ms for appropriate gameplay speed
+    obstacle.style.right = '-60px';
+    flyingObstacle.style.right = '-60px';
+    powerUp.style.right = '-60px';
+    gameInterval = setInterval(moveElements, 15);
 }
 
-// Function to end the game
 function endGame() {
-    clearInterval(gameInterval); // Stop the game loop
-    gameOverMessage.style.display = 'flex'; // Show game over message
+    clearInterval(gameInterval);
+    gameOverMessage.style.display = 'flex';
     scoreDisplay.classList.add('hidden');
     document.getElementById('finalScore').textContent = score;
 }
 
-// Function to restart the game
-function restartGame() {
-    startGame();
-}
-
-// Function to toggle fullscreen mode
-function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-        if (gameContainer.requestFullscreen) {
-            gameContainer.requestFullscreen();
-        } else if (gameContainer.mozRequestFullScreen) { // Firefox
-            gameContainer.mozRequestFullScreen();
-        } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
-            gameContainer.webkitRequestFullscreen();
-        } else if (gameContainer.msRequestFullscreen) { // IE/Edge
-            gameContainer.msRequestFullscreen();
-        }
-    } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) { // Firefox
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { // IE/Edge
-            document.msExitFullscreen();
-        }
-    }
-}
-
-// Event listeners
 startBtn.addEventListener('click', startGame);
-restartBtn.addEventListener('click', restartGame);
-fullscreenBtn.addEventListener('click', toggleFullscreen);
 jumpBtn.addEventListener('click', jump);
+restartBtn.addEventListener('click', startGame);
+fullscreenBtn.addEventListener('click', () => {
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    } else {
+        document.documentElement.requestFullscreen();
+    }
+});
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+        jump();
+    }
+});
+
 
