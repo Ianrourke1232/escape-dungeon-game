@@ -15,7 +15,6 @@ let score = 0;
 const jumpHeight = 50; // Height of the jump (in vh units)
 const jumpDuration = 200; // Duration of the jump in milliseconds
 const obstacleSpeed = 15; // Speed of the obstacle movement
-const targetScore = 30000; // Target score for the challenge
 
 let gameInterval;
 
@@ -53,11 +52,6 @@ function moveObstacle() {
         obstacle.style.right = '-60px'; // Reset obstacle position
         score++;
         scoreValue.textContent = score;
-
-        // Check for target score
-        if (score === targetScore) {
-            rewardPlayer(); // Call function to reward player
-        }
     } else {
         obstacle.style.right = `${obstacleLeft + obstacleSpeed}px`;
     }
@@ -74,11 +68,6 @@ function moveObstacle() {
     ) {
         endGame();
     }
-}
-
-// Function to reward the player
-function rewardPlayer() {
-    alert("Congratulations! You've reached the target score of 30,000! You win a gift!");
 }
 
 // Function to start the game
@@ -117,7 +106,7 @@ function toggleFullscreen() {
         } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
             gameContainer.webkitRequestFullscreen();
         } else if (gameContainer.msRequestFullscreen) { // IE/Edge
-            gameContainer.msExitFullscreen();
+            gameContainer.msRequestFullscreen();
         }
     } else {
         if (document.exitFullscreen) {
@@ -137,4 +126,3 @@ startBtn.addEventListener('click', startGame);
 restartBtn.addEventListener('click', restartGame);
 fullscreenBtn.addEventListener('click', toggleFullscreen);
 jumpBtn.addEventListener('click', jump);
-
