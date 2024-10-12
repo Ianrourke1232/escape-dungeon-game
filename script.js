@@ -130,19 +130,13 @@ function endGame() {
 }
 
 startBtn.addEventListener('click', startGame);
-jumpBtn.addEventListener('click', jump);
 restartBtn.addEventListener('click', startGame);
-fullscreenBtn.addEventListener('click', () => {
-    if (document.fullscreenElement) {
-        document.exitFullscreen();
-    } else {
-        document.documentElement.requestFullscreen();
-    }
-});
+fullscreenBtn.addEventListener('click', () => document.body.requestFullscreen());
+jumpBtn.addEventListener('click', jump);
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
+        e.preventDefault();
         jump();
     }
 });
-
 
