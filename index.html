@@ -5,53 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jumping Game</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* CSS for the audio player */
-        #audioPlayer {
-            position: fixed;  /* Keep it fixed to the viewport */
-            bottom: 20px;     /* Distance from the bottom of the screen */
-            right: 20px;      /* Distance from the right side of the screen */
-            z-index: 1000;    /* Ensure it appears above other elements */
-            width: 200px;     /* Set width to ensure visibility */
-            border: 1px solid #ccc; /* Optional: Add a border for visibility */
-            border-radius: 5px;     /* Optional: Rounded corners */
-            background-color: #f9f9f9; /* Optional: Background color */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow */
-        }
-
-        /* Additional styles for visibility */
-        #audioPlayer::-webkit-media-controls {
-            background-color: #f9f9f9; /* Change background color of controls */
-        }
-    </style>
 </head>
 <body>
-    <div class="game-container" id="gameContainer">
-        <div id="player"></div>
-        <div id="obstacle"></div>
-        <div id="ground"></div>
-        <div id="score" class="hidden">
-            Score: <span id="scoreValue">0</span>
-        </div>
-        <div id="gameOverMessage" class="hidden">
-            <h1>Game Over!</h1>
-            <p>Your score: <span id="finalScore">0</span></p>
-            <button id="restartBtn">Restart Game</button>
-        </div>
-        <button id="fullscreenBtn">Fullscreen</button>
-        <div id="instructions">
-            <h1>Jumping Game</h1>
-            <p>Press the <strong>Spacebar</strong> or tap the screen to jump over obstacles.</p>
-            <button id="startBtn">Start Game</button>
-        </div>
-        <button id="jumpBtn">Jump</button>
-        
-        <!-- Audio Player -->
-        <audio id="audioPlayer" autoplay loop controls>
-            <source src="https://stream-176.zeno.fm/grtaewn8sxctv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJncnRhZXduOHN4Y3R2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkFuWjdkcVlTUkdpcHI0ZnZOVXZNVVEiLCJpYXQiOjE3Mjg3NjYzNTcsImV4cCI6MTcyODc2NjQxN30.IsbeGb-U98B5Ot7b_BL1SgdI-HudnOkVHGeyeahRn24&adtonosListenerId=01JA180AH2A1TQGZ7C9DJTV5AQ&amp;aw_0_req_lsid=0ae4989054fccd9f909381004af9b2bd&amp;cto-uid=8876fb30-14ce-4165-8799-3cb5e00f00da-670ae153-5553&amp;an-uid=4927939036648945558&amp;dot-uid=0b19220400085c1cf79cee2e&amp;triton-uid=cookie%3A5b12f5a5-7acd-4f5a-a722-3663fde4592b&amp;amb-uid=8431263708003829485&amp;dbm-uid=CAESEOTavtZhMg07XbNc-SkH_sg%22" type="audio/mpeg">
-            Your browser does not support the audio tag.
-        </audio>
-    </div>
+    <div id="message">Jumping Game: Press the Spacebar or tap the screen to jump over obstacles</div>
+    <div id="gameArea"></div>
+    <audio id="background-audio" src="https://stream-176.zeno.fm/grtaewn8sxctv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJncnRhZXduOHN4Y3R2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkFuWjdkcVlTUkdpcHI0ZnZOVXZNVVEiLCJpYXQiOjE3Mjg3NjYzNTcsImV4cCI6MTcyODc2NjQxN30.IsbeGb-U98B5Ot7b_BL1SgdI-HudnOkVHGeyeahRn24" autoplay loop></audio>
     <script src="script.js"></script>
 </body>
 </html>
